@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  freshpoint:
+    build: .
+    container_name: freshpoint-app
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - COMPANY_NAME=FreshPoint
+      - COMPANY_PHONE=(11) 99999-9999
+      - COMPANY_EMAIL=contato@acaipremium.com
+      - COMPANY_LOCATION=São Paulo, SP
+      - WHATSAPP_NUMBER=5511999999999
+    volumes:
+      - ./templates:/app/templates
+      - ./static:/app/static
+    restart: unless-stopped
+    networks:
+      - freshpoint-network
+
+  # Futuro: banco de dados PostgreSQL
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: freshpoint-db
+  #   environment:
+  #     - POSTGRES_DB=freshpoint
+  #     - POSTGRES_USER=freshpoint
+  #     - POSTGRES_PASSWORD=secret
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   restart: unless-stopped
+  #   networks:
+  #     - freshpoint-network
+
+  # Futuro: Redis para cache
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: freshpoint-cache
+  #   ports:
+  #     - "6379:6379"
+  #   restart: unless-stopped
+  #   networks:
+  #     - freshpoint-network
+
+networks:
+  freshpoint-network:
+    driver: bridge
+
+# volumes:
+#   postgres_data:
